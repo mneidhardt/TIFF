@@ -168,10 +168,6 @@ System.out.println("Tiles. Args=" + imglength[3] + " " +
 		long orientation[] = getValueOffset(TiffNames.ORIENTATION);
 		long newsubfiletype[] = getValueOffset(TiffNames.NEWSUBFILETYPE);
 
-		/*if (getCompression() != 1) {
-			throw new RuntimeException("TiffIFD: Cannot handle compressed images.");
-		}*/
-
 		if (orientation != null) {
 			if (orientation[3] != 1) {
 				throw new RuntimeException("TiffIFD: Cannot handle " + " Orientation different from 1.");
