@@ -14,10 +14,6 @@ import java.io.IOException;
 //import dk.meem.basics.Search;
 //import dk.meem.basics.MergeSort;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-
 public class TiffReader {
 
    public static void main(String[] args) throws IOException {

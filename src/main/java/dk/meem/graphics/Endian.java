@@ -1,4 +1,4 @@
-package dk.meem.basics;
+package dk.meem.graphics;
 
 /**
  * Interface for Endian-conversions.

@@ -1,4 +1,4 @@
-package dk.meem.basics;
+package dk.meem.graphics;
 
 /*
  * @(#)MergeSort.java   Based on Mergesorter by H.W.Lang
@@ -6,6 +6,10 @@ package dk.meem.basics;
  */
 
 /**
+ * This version handles arrays of shorts. It is primitive
+ * but I had no time to implement a sorter that can handle
+ * all types, so I made a hard coded version.
+ *
  * A merge sort that handles sorting a simple array as
  * well as a (n x m) matrix.
  * I.e. the rows are being sorted, possibly on more
@@ -17,55 +21,44 @@ package dk.meem.basics;
  * @version    0.1, 27. April 2007
  */
 
-//package dk.meem.basics;
 
-public class MergeSort {
-   private int arr[][];
-   private int sequence[]=null;
-
-
-   public void sort(int a[]) {
-      int a2[][] = new int[a.length][1];
-      for (int i=0; i<a2.length; i++) {
-         a2[i][0] = a[i];
-      }
-
-      int sortcolumns[] = {0};
-
-      sort(a2, sortcolumns);
-
-      for (int i=0; i<a.length; i++) {
-         a[i] = a2[i][0];
-      }
-   }
+public class MergeSortS {
+   private short arr[][];
+   private short sequence[]=null;
 
 
-   public void sort(int a[][], int sortcolumn) {
+   /** If you want to sort array on only one column, this is used.
+   * @param a The array to be sorted (on one column in this case).
+   * @param sortcolumn The column in array a to sort on.
+   */
+   public void sort(short a[][], int sortcolumn) {
       int sortcolumns[] = new int[1];
       sortcolumns[0] = sortcolumn;
 
       sort(a, sortcolumns);
    }
 
+
    /**
    * The main method for sorting.
+   * @param a The array to be sorted (on 2 or more columns).
    * @param sortcolumns The list of columns to sort on.
    * @return The sorted array.
    */
-   public void sort(int a[][], int sortcolumns[]) {
+   public void sort(short a[][], int sortcolumns[]) {
       arr = a;
       int n = arr.length;
 
-      sequence = new int[n];
+      sequence = new short[n];
 
       // sequence contains the original position of each row.
-      for (int i=0; i<sequence.length; i++) {
+      for (short i=0; i<sequence.length; i++) {
          sequence[i] = i;
       }
 
       mergesort(0, n-1, sortcolumns[0]);
 
-      int val=arr[0][sortcolumns[0]];
+      short val=arr[0][sortcolumns[0]];
       int lo=0, hi=0;
 
 
@@ -106,8 +99,8 @@ public class MergeSort {
 
    private void merge(int lo, int m, int hi, int sortcolumn) {
         int i, j, k;
-        int b[][] = new int[m-lo+1][arr[0].length];
-        int b2[] = new int[m-lo+1];
+        short b[][] = new short[m-lo+1][arr[0].length];
+        short b2[] = new short[m-lo+1];
 
         i=0; j=lo;
 
@@ -168,7 +161,7 @@ public class MergeSort {
    * If the unsorted array is [40 10 11 30 20], the indices in
    * sorted order are [1 2 4 3 0].
    */
-   public int[] getSequence() {
+   public short[] getSequence() {
       return sequence;
    }
 

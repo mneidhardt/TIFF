@@ -9,8 +9,6 @@ package dk.meem.graphics;
 
 import java.io.IOException;
 
-import dk.meem.basics.Endian;
-
 public class TiffIFD {
    protected int IFDDircount;
    protected short entries[][];

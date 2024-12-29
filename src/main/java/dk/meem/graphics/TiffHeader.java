@@ -11,10 +11,6 @@ package dk.meem.graphics;
 
 import java.nio.ByteBuffer;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-
 public class TiffHeader {
    private int headersize=8;
    private boolean validTiff  = false;

@@ -11,10 +11,6 @@ package dk.meem.graphics;
 import java.io.FileNotFoundException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
-
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.LittleEndian;
-
 //import java.io.FileOutputStream;
 //import java.io.FileInputStream;
 import java.io.IOException;
@@ -140,104 +136,92 @@ System.out.println("Tiles. Args=" + imglength[3] + " " +
 
       return getBytesPerScanline(imagewidth[3], imagetype);
    }
+   
+   public long getCompression() {
+	   long compression[]    = getValueOffset(TiffNames.COMPRESSION);
+	   if (compression != null) {
+		   return compression[3];
+	   } else {
+		   return -1;
+	   }
+}
 
 
    /** Gets the type of an image, ie if its B/W, gray/4, gray/8 or RGB.
    * It is necessary to check several pieces of information to get this.
    */
-   public int getImageType() throws IOException {
-      int imagetype=-1;          // 0=B/W,   1=Gray/4,   2=Gray/8,   3=RGB/3
+	public int getImageType() throws IOException {
+		int imagetype = -1; // 0=B/W, 1=Gray/4, 2=Gray/8, 3=RGB/3
 
-      if (infile == null) {
-         throw new RuntimeException("Cannot get image type" +
-                     " without a file.");
-      }
+		if (infile == null) {
+			throw new RuntimeException("Cannot get image type" + " without a file.");
+		}
 
-      long compression[]    = getValueOffset(TiffNames.COMPRESSION);
-      long imglength[]      = getValueOffset(TiffNames.IMAGELENGTH);
-      long imgwidth[]       = getValueOffset(TiffNames.IMAGEWIDTH);
-      long photomIntrp[]    = getValueOffset(TiffNames.PHOTOMETRICINTERPRETATION);
-      long rowsperstrip[]   = getValueOffset(TiffNames.ROWSPERSTRIP);
-      long bits[]           = getValueOffset(TiffNames.BITSPERSAMPLE);
-      long samplespp[]      = getValueOffset(TiffNames.SAMPLESPERPIXEL);
-      long extrasamples[]   = getValueOffset(TiffNames.EXTRASAMPLES);
-      long planarconfig[]   = getValueOffset(TiffNames.PLANARCONFIGURATION);
-      long orientation[]    = getValueOffset(TiffNames.ORIENTATION);
-      long newsubfiletype[] = getValueOffset(TiffNames.NEWSUBFILETYPE);
+		long imglength[] = getValueOffset(TiffNames.IMAGELENGTH);
+		long imgwidth[] = getValueOffset(TiffNames.IMAGEWIDTH);
+		long photomIntrp[] = getValueOffset(TiffNames.PHOTOMETRICINTERPRETATION);
+		long rowsperstrip[] = getValueOffset(TiffNames.ROWSPERSTRIP);
+		long bits[] = getValueOffset(TiffNames.BITSPERSAMPLE);
+		long samplespp[] = getValueOffset(TiffNames.SAMPLESPERPIXEL);
+		long extrasamples[] = getValueOffset(TiffNames.EXTRASAMPLES);
+		long planarconfig[] = getValueOffset(TiffNames.PLANARCONFIGURATION);
+		long orientation[] = getValueOffset(TiffNames.ORIENTATION);
+		long newsubfiletype[] = getValueOffset(TiffNames.NEWSUBFILETYPE);
 
-      if (compression != null) {
-         if (compression[3] != 1) {
-            throw new RuntimeException("TiffIFD: Cannot handle " +
-                  " compressed images.");
-         }
-      }
+		/*if (getCompression() != 1) {
+			throw new RuntimeException("TiffIFD: Cannot handle compressed images.");
+		}*/
 
-      if (orientation != null) {
-         if (orientation[3] != 1) {
-            throw new RuntimeException("TiffIFD: Cannot handle " +
-                  " Orientation different from 1.");
-         }
-      }
+		if (orientation != null) {
+			if (orientation[3] != 1) {
+				throw new RuntimeException("TiffIFD: Cannot handle " + " Orientation different from 1.");
+			}
+		}
 
-      if (planarconfig != null) {
-         if (planarconfig[3] != 1) {
-            throw new RuntimeException("TiffIFD: Cannot handle " +
-                  " PlanarConfiguration different from 1.");
-         }
-      }
+		if (planarconfig != null) {
+			if (planarconfig[3] != 1) {
+				throw new RuntimeException("TiffIFD: Cannot handle " + " PlanarConfiguration different from 1.");
+			}
+		}
 
-      if (newsubfiletype != null) {
-         if (newsubfiletype[3] != 0) {
-            throw new RuntimeException("TiffIFD: Cannot handle " +
-                  " NewSubfileType different from 0.");
-         }
-      }
+		if (newsubfiletype != null) {
+			if (newsubfiletype[3] != 0) {
+				throw new RuntimeException("TiffIFD: Cannot handle " + " NewSubfileType different from 0.");
+			}
+		}
 
-      if ((photomIntrp[3] == 0 || photomIntrp[3] == 1)) {
-         // In here, I assume that bitspersample is 1 value, not offset!
-         if (bits == null) {
-            imagetype = 0;       // B/W
-         }
-         else if (bits[2] < 5 && bits[3] == 1) {
-            imagetype = 0;       // B/W
-         }
-         else if (bits[2] < 5 && bits[3] == 4) {
-            imagetype = 1;       // Gray/4
-         }
-         else if (bits[2] < 5 && bits[3] == 8) {
-            imagetype = 2;       // Gray/8
-         }
-         else {
-            throw new RuntimeException("TiffIFD: Cannot handle this: " +
-                     " BitsPerSample = " + bits[3] +
-                     " Count for this field =  " + bits[2]);
-         }
-      }
-      else if (photomIntrp[3] == 2 && extrasamples != null) {
-            throw new RuntimeException("Cannot handle ExtraSamples.");
-      }
-      else if (photomIntrp[3] == 2) {     // No ExtraSamples.
-         int bitspersample[] = getBitsPerSample();
+		if ((photomIntrp[3] == 0 || photomIntrp[3] == 1)) {
+			// In here, I assume that bitspersample is 1 value, not offset!
+			if (bits == null) {
+				imagetype = 0; // B/W
+			} else if (bits[2] < 5 && bits[3] == 1) {
+				imagetype = 0; // B/W
+			} else if (bits[2] < 5 && bits[3] == 4) {
+				imagetype = 1; // Gray/4
+			} else if (bits[2] < 5 && bits[3] == 8) {
+				imagetype = 2; // Gray/8
+			} else {
+				throw new RuntimeException("TiffIFD: Cannot handle this: " + " BitsPerSample = " + bits[3]
+						+ " Count for this field =  " + bits[2]);
+			}
+		} else if (photomIntrp[3] == 2 && extrasamples != null) {
+			throw new RuntimeException("Cannot handle ExtraSamples.");
+		} else if (photomIntrp[3] == 2) { // No ExtraSamples.
+			int bitspersample[] = getBitsPerSample();
 
-         //for (int i=0; i<bits.length; i++) { System.out.print(bits[i] + " + "); }   // TESTTTTTTTT
+			// for (int i=0; i<bits.length; i++) { System.out.print(bits[i] + " + "); } //
+			// TESTTTTTTTT
 
-         if (samplespp[3] == 3 && (bitspersample[0] != 8 ||
-                                   bitspersample[1] != 8 ||
-                                   bitspersample[2] != 8)) {
-            throw new RuntimeException("Cannot handle this: " +
-                                       "BitsPerSample = [" +
-                                        bitspersample[0] + " " +
-                                        bitspersample[1] + " " +
-                                        bitspersample[2] + "]");
-         }
-         else if (samplespp[3] == 3) {
-               imagetype = 3;    // Standard RGB
-         }
-      }
+			if (samplespp[3] == 3 && (bitspersample[0] != 8 || bitspersample[1] != 8 || bitspersample[2] != 8)) {
+				throw new RuntimeException("Cannot handle this: " + "BitsPerSample = [" + bitspersample[0] + " "
+						+ bitspersample[1] + " " + bitspersample[2] + "]");
+			} else if (samplespp[3] == 3) {
+				imagetype = 3; // Standard RGB
+			}
+		}
 
-      return imagetype;
-   }
-
+		return imagetype;
+	}
 
    /**
    * Finds out what the image contains in the field BitsPerSample.
@@ -299,6 +283,8 @@ System.out.println("Tiles. Args=" + imglength[3] + " " +
          else {
             System.out.println("TiffIFD: Don't know image type.");
          }
+         long compression = getCompression();
+         System.out.println("Compression: " + compression + " " + TiffNames.compressionName(compression));
       }
    }
 }

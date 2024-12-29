@@ -13,10 +13,6 @@ package dk.meem.graphics;
 
 import java.io.IOException;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-
 public class Tiffreader2 {
 
    public static void main(String[] args) throws IOException {

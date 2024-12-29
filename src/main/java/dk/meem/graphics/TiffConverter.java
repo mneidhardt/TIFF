@@ -16,10 +16,6 @@ import java.io.IOException;
 //import java.nio.channels.FileChannel;
 //import java.io.FileOutputStream;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-
 class TiffConverter {
 
 

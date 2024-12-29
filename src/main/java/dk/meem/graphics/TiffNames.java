@@ -128,6 +128,17 @@ public class TiffNames {
    public static final int PRINTIMAGEMATCHINGINFO     = 50341; // ???
 
 
+	public static final String compressionName(long type) {
+		if (type == 1) {
+			return "Uncompressed";
+		} else if (type == 2) {
+			return "CCITT Group 3 1-Dimensional Modified Huffman run length encoding";
+		} else if (type == 32773) {
+			return "Packbits";
+		} else {
+			return "Unknown compression.";
+		}
+	}
 
    public static String num2Name(int fieldnumber) {
 

@@ -12,9 +12,6 @@ package dk.meem.graphics;
 
 import java.nio.*;
 import java.nio.channels.*;
-
-import dk.meem.basics.Endian;
-
 import java.nio.ShortBuffer.*;
 import java.io.*;
 

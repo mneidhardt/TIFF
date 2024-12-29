@@ -2,10 +2,6 @@ package dk.meem.graphics;
 
 import javax.swing.*;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-
 import java.awt.*;
 import java.util.*;
 import java.awt.event.MouseListener;

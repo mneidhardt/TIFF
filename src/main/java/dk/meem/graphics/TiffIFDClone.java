@@ -15,11 +15,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dk.meem.basics.BigEndian;
-import dk.meem.basics.Endian;
-import dk.meem.basics.LittleEndian;
-import dk.meem.basics.MergeSortS;
-
 public class TiffIFDClone extends TiffIFD {
    private long IFDOffset;
    private long currentoffset;
